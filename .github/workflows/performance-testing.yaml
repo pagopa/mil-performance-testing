@@ -55,3 +55,18 @@ jobs:
         with:
           name: locust-report
           path: report.html
+
+  Deploy_pages:
+    runs-on: ubuntu-latest
+    needs: [ Performance_test ]
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
+        with:
+          name: locust-report
+          path: doc
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@4f9cc6602d3f66b9c108549d475ec49e8ef4d45e
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doc
