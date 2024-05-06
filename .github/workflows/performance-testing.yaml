@@ -59,6 +59,8 @@ jobs:
   Deploy_pages:
     runs-on: ubuntu-latest
     needs: [ Performance_test ]
+    permissions:
+      contents: write
     steps:
       - name: Download artifact
         uses: actions/download-artifact@65a9edc5881444af0b9093a5e628f2fe47ea3b2e
