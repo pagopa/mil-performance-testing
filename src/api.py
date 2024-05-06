@@ -1,6 +1,6 @@
 import uuid
 
-from util.dataset import random_terminal_data
+from dataset import random_terminal_data
 
 mil_auth_api_version = '1.0.0'
 
