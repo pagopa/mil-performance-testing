@@ -1,9 +1,9 @@
-import json
 import random
 
 from locust import between
 from locust import HttpUser
 from locust import task
+from util import load_credentials
 
 from src.api import delete_terminal
 from src.api import get_paginated_terminals
@@ -22,20 +22,20 @@ class Operator(HttpUser):
     active_users = {}
 
     def on_start(self):
-        with open('./conf/client_credentials.json', 'r') as file:
-            client_data = json.load(file)
-            if client_data['clients']:
-                for client in client_data['clients']:
-                    self.tr_token_client_id = client['client_id']
-                    self.tr_token_client_secret = client['client_secret']
-                    if (self.tr_token_client_id, self.tr_token_client_secret) not in self.active_users:
-                        self.active_users[(self.tr_token_client_id, self.tr_token_client_secret)] = self
-                        self.access_token_tr = get_terminal_registry_access_token(self.client, self.tr_token_client_id,
-                                                                                  self.tr_token_client_secret)
-                        self.get_all_terminals()
-            else:
-                # Quit the test if there are no available clients
-                self.environment.runner.quit()
+        client_data = load_credentials()
+
+        if client_data['clients']:
+            for client in client_data['clients']:
+                self.tr_token_client_id = client['client_id']
+                self.tr_token_client_secret = client['client_secret']
+                if (self.tr_token_client_id, self.tr_token_client_secret) not in self.active_users:
+                    self.active_users[(self.tr_token_client_id, self.tr_token_client_secret)] = self
+                    self.access_token_tr = get_terminal_registry_access_token(self.client, self.tr_token_client_id,
+                                                                              self.tr_token_client_secret)
+                    self.get_all_terminals()
+        else:
+            # Quit the test if there are no available clients
+            self.environment.runner.quit()
 
     def on_stop(self):
         self.get_all_terminals()
