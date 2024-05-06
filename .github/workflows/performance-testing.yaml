@@ -28,7 +28,7 @@ jobs:
               --host $HOST \
               --users 1 \
               --spawn-rate 1 \
-              --run-time 10 \
+              --run-time 30 \
               --exit-code-on-error 0 \
               --csv report.csv \
               --html report.html
