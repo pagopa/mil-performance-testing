@@ -9,7 +9,7 @@ env:
   HOST: https://mil-d-apim.azure-api.net
 
 jobs:
-  loadtest:
+  Performance_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11
@@ -34,7 +34,7 @@ jobs:
               --html report.html
         env:
           CLIENT_CREDENTIALS_BASE64: ${{ secrets.CLIENT_CREDENTIALS_BASE64 }}
-      - name: load test summary
+      - name: Performance test summary
         run: |
           req_total=$(awk -F',' 'END {print $3}' report.csv_stats.csv)
           req_fail=$(awk -F',' 'END {print $4}' report.csv_stats.csv)
