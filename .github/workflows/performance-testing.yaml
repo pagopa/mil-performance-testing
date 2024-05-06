@@ -50,7 +50,7 @@ jobs:
           echo 95 Percentile: ${p95}ms
           echo 99 Percentile: ${p99}ms
       - name: Store locust report
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@65462800fd760344b1a7b4382951275a0abb4808
         with:
           name: locust-report
           path: report.html
