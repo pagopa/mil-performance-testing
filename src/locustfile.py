@@ -24,7 +24,7 @@ class Operator(HttpUser):
     def on_start(self):
         client_data = load_credentials()
 
-        if client_data['clients']:
+        if 'clients' in client_data:
             for client in client_data['clients']:
                 self.tr_token_client_id = client['client_id']
                 self.tr_token_client_secret = client['client_secret']
