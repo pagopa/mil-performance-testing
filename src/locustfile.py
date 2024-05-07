@@ -47,7 +47,7 @@ class Operator(HttpUser):
         for t in response.json()['terminals']:
             self.terminals[t['terminalUuid']] = t
 
-    @task(2)
+    @task(1)
     def get_all_terminals(self):
         empty = False
         i = 0
@@ -69,6 +69,7 @@ class Operator(HttpUser):
 
     @task(3)
     def update_terminal(self):
+        self.get_all_terminals()
         if self.terminals:
             target_terminal = random.choice(list(self.terminals.values()))
             target_terminal_uuid = target_terminal['terminalUuid']
@@ -77,6 +78,7 @@ class Operator(HttpUser):
 
     @task(2)
     def delete_terminal(self):
+        self.get_all_terminals()
         if self.terminals:
             target_terminal = random.choice(list(self.terminals.values()))
             target_terminal_uuid = target_terminal['terminalUuid']
