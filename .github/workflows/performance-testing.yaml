@@ -2,8 +2,7 @@ name: Performance testing
 
 on:
   push:
-#    branches: [ main ]
-    branches: [ MCIL-105-base-performance-tests ]
+    branches: [ main ]
 
 env:
   HOST: https://mil-d-apim.azure-api.net
