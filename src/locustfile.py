@@ -13,7 +13,7 @@ from src.api import post_new_random_terminal
 
 
 class Operator(HttpUser):
-    wait_time = between(0, 1)
+    wait_time = between(1, 5)
 
     tr_token_client_id = None
     tr_token_client_secret = None
