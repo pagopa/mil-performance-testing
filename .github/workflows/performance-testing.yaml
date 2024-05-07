@@ -27,7 +27,7 @@ jobs:
           python3 -m pipenv run locust -f src/locustfile.py \
               --headless \
               --host $HOST \
-              --users 1 \
+              --users 5 \
               --spawn-rate 1 \
               --run-time 30 \
               --exit-code-on-error 0 \
