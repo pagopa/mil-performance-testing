@@ -19,20 +19,17 @@ class Operator(HttpUser):
     tr_token_client_secret = None
     access_token_tr = None
     terminals = {}
-    active_users = {}
 
     def on_start(self):
         client_data = load_credentials()
 
         if 'clients' in client_data:
-            for client in client_data['clients']:
-                self.tr_token_client_id = client['client_id']
-                self.tr_token_client_secret = client['client_secret']
-                if (self.tr_token_client_id, self.tr_token_client_secret) not in self.active_users:
-                    self.active_users[(self.tr_token_client_id, self.tr_token_client_secret)] = self
-                    self.access_token_tr = get_terminal_registry_access_token(self.client, self.tr_token_client_id,
-                                                                              self.tr_token_client_secret)
-                    self.get_all_terminals()
+            client = random.choice(client_data['clients'])
+            self.tr_token_client_id = client['client_id']
+            self.tr_token_client_secret = client['client_secret']
+            self.access_token_tr = get_terminal_registry_access_token(self.client, self.tr_token_client_id,
+                                                                      self.tr_token_client_secret)
+            self.get_all_terminals()
         else:
             # Quit the test if there are no available clients
             self.environment.runner.quit()
@@ -41,7 +38,6 @@ class Operator(HttpUser):
         self.get_all_terminals()
         while self.terminals:
             self.delete_terminal()
-        del self.active_users[(self.tr_token_client_id, self.tr_token_client_secret)]
         self.environment.runner.quit()
 
     @task(2)
